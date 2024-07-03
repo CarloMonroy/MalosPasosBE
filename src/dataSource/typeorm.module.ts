@@ -1,9 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Global, Module } from '@nestjs/common';
 require('dotenv').config(); // load the environment variables from the .env file
-
-console.log(process.env)
-
 @Global() // makes the module available globally for other modules once imported in the app modules
 @Module({
   imports: [],

@@ -10,6 +10,9 @@ import { MainHero } from './main-hero/entities/main-hero.entity';
 import { Collection } from './collection/entities/collection.entity';
 import { Product } from './product/entities/product.entity';
 import { ProductImages } from './product/entities/productImages.entity';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -24,13 +27,16 @@ import { ProductImages } from './product/entities/productImages.entity';
         MainHero,
         Collection,
         Product,
-        ProductImages
+        ProductImages,
+        User
       ],
       synchronize: true,
     }),
    MainHeroModule,
    CollectionModule,
    ProductModule,
+   UserModule,
+   AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
