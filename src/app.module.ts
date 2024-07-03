@@ -9,6 +9,7 @@ import { ProductModule } from './product/product.module';
 import { MainHero } from './main-hero/entities/main-hero.entity';
 import { Collection } from './collection/entities/collection.entity';
 import { Product } from './product/entities/product.entity';
+import { ProductImages } from './product/entities/productImages.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { Product } from './product/entities/product.entity';
       entities: [
         MainHero,
         Collection,
-        Product
+        Product,
+        ProductImages
       ],
       synchronize: true,
     }),
