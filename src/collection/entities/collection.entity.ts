@@ -3,8 +3,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToOne,
-  JoinColumn,
-  OneToMany
+  OneToMany,
+  JoinColumn
 } from 'typeorm';
 import { MainHero } from 'src/main-hero/entities/main-hero.entity';
 import { Product } from 'src/product/entities/product.entity';
@@ -21,7 +21,6 @@ export class Collection {
   isFeatured: boolean;
   
   @OneToOne(() => MainHero)
-  @JoinColumn()
   mainHero: MainHero;
 
   @OneToMany(() => Product, product => product.collection)

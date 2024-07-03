@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Collection } from 'src/collection/entities/collection.entity';
 @Entity()
 export class MainHero {
@@ -15,5 +15,6 @@ export class MainHero {
   title: string;
 
   @OneToOne(() => Collection)
+  @JoinColumn()
   collection: Collection;
 }
