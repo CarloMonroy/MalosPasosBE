@@ -11,7 +11,7 @@ require('dotenv').config(); // load the environment variables from the .env file
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '30d' },
     }),
   ],
   controllers: [AuthController],

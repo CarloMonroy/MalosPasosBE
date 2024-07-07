@@ -58,7 +58,7 @@ export class ProductService {
   const [data, total] = await this.productRepository.findAndCount({
     skip: (page - 1) * limit,
     take: limit,
-    relations: ['productImages']
+    relations: ['productImages', 'collection']
   });
 
   return { data, total };

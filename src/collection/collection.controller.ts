@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CollectionService } from './collection.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { UpdateCollectionDto } from './dto/update-collection.dto';
@@ -16,6 +16,21 @@ export class CollectionController {
   findAll() {
     return this.collectionService.findAll();
   }
+
+  @Get(':collectionName/products')
+  findProductsInCollection(@Param('collectionName') collectionName: string) {
+    return this.collectionService.findProductsInCollection(collectionName);
+  }
+
+  @Get(':collectionName/products/paginate')
+  findProductsInCollectionPaginated(
+    @Param('collectionName') collectionName: string,
+    @Query('start') start: string, // Query parameters are strings by default
+    @Query('limit') limit: string
+  ) {
+    return this.collectionService.findProductsInCollectionPaginated(collectionName, parseInt(start), parseInt(limit));
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
