@@ -26,9 +26,10 @@ export class CollectionController {
   findProductsInCollectionPaginated(
     @Param('collectionName') collectionName: string,
     @Query('start') start: string, // Query parameters are strings by default
-    @Query('limit') limit: string
+    @Query('limit') limit: string,
+    @Query('sort') sort: string
   ) {
-    return this.collectionService.findProductsInCollectionPaginated(collectionName, parseInt(start), parseInt(limit));
+    return this.collectionService.findProductsInCollectionPaginated(collectionName, parseInt(start), parseInt(limit), sort);
   }
 
 

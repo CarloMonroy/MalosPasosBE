@@ -29,7 +29,27 @@ export class CollectionService {
     });
   }
 
-  async findProductsInCollectionPaginated(collectionName: string, start: number, limit: number) {
+  async findProductsInCollectionPaginated(collectionName: string, start: number, limit: number, sort: string) {
+    let order: any = {};
+
+    switch (sort) {
+      case 'best':
+        order = {
+          id: 'DESC'
+        };
+        break;
+      case 'low':
+        order = {
+          price: 'ASC'
+        };
+        break;
+      case 'high':
+        order = {
+          price: 'DESC'
+        };
+        break;
+      }
+
     const collection = await this.collectionRepository.findOne({
       where: {
         title: collectionName.replace(/-/g, ' ')
@@ -42,8 +62,9 @@ export class CollectionService {
 
     const [product, total ] = await this.productRepository.findAndCount({
       where: {
-        collection: collection
+        collection: collection,
       },
+      order,
       relations: ['productImages'],
       take: limit,
       skip: start
@@ -55,16 +76,16 @@ export class CollectionService {
     };
   }
 
-  async findProductsInCollection(collectionSlug: string) {
+  async findProductsInCollection(collectionName: string) {
     const collection = await this.collectionRepository.findOne({
       where: {
-        slug: collectionSlug
+        title: collectionName.replace(/-/g, ' ')
       },
     }
     );
 
     if (!collection) {
-      throw new NotFoundException(`Collection with name ${collectionSlug} not found`);
+      throw new NotFoundException(`Collection with name ${collectionName} not found`);
     }
 
     const products = await this.productRepository.find({
