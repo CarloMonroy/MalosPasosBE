@@ -2,7 +2,8 @@ import { IsArray, IsBoolean, IsNumber, IsString, ValidateNested } from "class-va
 import { Type } from 'class-transformer';
 
 class ProductStock {
-  size: string;
+  // size u is for universal size
+  size: "s" | "m" | "l" | "u";
   stock: number;
 }
 
