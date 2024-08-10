@@ -102,7 +102,7 @@ export class ProductService {
       where: {
         slug: productSlug
       },
-      relations: ['collection', 'productImages', 'productStock']
+      relations: ['collection', 'productImages', 'productsStock']
     });
   }
 
