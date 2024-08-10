@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { Collection } from "src/collection/entities/collection.entity";
 import { ProductImages } from "./productImages.entity";
+import { ProductsStock } from "./productsStock.entity";
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
@@ -30,6 +31,9 @@ export class Product {
 
   @Column()
   materials: string;
+
+  @Column({unique: true})
+  slug: string;
   
   @ManyToOne(() => Collection)
   @JoinColumn()
@@ -37,5 +41,8 @@ export class Product {
 
   @OneToMany(() => ProductImages, (productImages) => productImages.product)
   productImages: ProductImages[];
+
+  @OneToMany(() => ProductsStock, (productsStock) => productsStock.product)
+  productsStock: ProductsStock[];
 }
 

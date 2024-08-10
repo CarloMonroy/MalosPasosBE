@@ -13,6 +13,7 @@ import { ProductImages } from './product/entities/productImages.entity';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/entities/user.entity';
+import { ProductsStock } from './product/entities/productsStock.entity';
 
 @Module({
   imports: [
@@ -22,12 +23,13 @@ import { User } from './user/entities/user.entity';
       port: 3306,
       username: 'root',
       password: 'root',
-      database: 'test',
+      database: 'malospasosdb',
       entities: [
         MainHero,
         Collection,
         Product,
         ProductImages,
+        ProductsStock,
         User
       ],
       synchronize: true,

@@ -23,6 +23,9 @@ export class Collection {
   @OneToOne(() => MainHero)
   mainHero: MainHero;
 
+  @Column({unique: true})
+  slug: string;
+
   @OneToMany(() => Product, product => product.collection)
   products: Product[];
 

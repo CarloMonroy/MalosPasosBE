@@ -6,4 +6,7 @@ export class CreateCollectionDto {
 
   @IsBoolean()
   isFeatured: boolean;
+
+  @IsString()
+  slug: string;
 }

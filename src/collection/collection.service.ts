@@ -55,16 +55,16 @@ export class CollectionService {
     };
   }
 
-  async findProductsInCollection(collectionName: string) {
+  async findProductsInCollection(collectionSlug: string) {
     const collection = await this.collectionRepository.findOne({
       where: {
-        title: collectionName.replace(/-/g, ' ')
+        slug: collectionSlug
       },
     }
     );
 
     if (!collection) {
-      throw new NotFoundException(`Collection with name ${collectionName} not found`);
+      throw new NotFoundException(`Collection with name ${collectionSlug} not found`);
     }
 
     const products = await this.productRepository.find({

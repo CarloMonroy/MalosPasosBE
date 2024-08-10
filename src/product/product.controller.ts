@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -17,9 +17,14 @@ export class ProductController {
     return this.productService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+  @Get(':productSlug')
+  async findOne(@Param('productSlug') productSlug: string) {
+    const product = await this.productService.findOne(productSlug)
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    } else {
+      return product;
+    }
   }
 
   @Patch(':id')
