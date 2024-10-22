@@ -27,6 +27,15 @@ export class ProductController {
     }
   }
 
+  @Get('/men/:type')
+  findAllMen(
+    @Param('type') type: string,
+    @Param('start') start: string,
+    @Param('limit') limit: string,
+    @Param('sort') sort: string
+  ){
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);

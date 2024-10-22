@@ -4,13 +4,13 @@ dotenv.config();
 
 module.exports = new DataSource({
   type: 'mysql',
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: "localhost",
+  port: 3306,
+  username: "root",
+  password: "root",
+  database: "malospasosdb",
   entities: ['dist/**/*.entity{.ts,.js}'],
   synchronize: false,
-  migrations: ['dist/migration/*.js'],
+  migrations: ['migrations/*.js'],
   migrationsTableName: 'migrations_typeorm',
 })

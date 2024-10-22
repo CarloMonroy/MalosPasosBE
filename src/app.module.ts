@@ -14,6 +14,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/entities/user.entity';
 import { ProductsStock } from './product/entities/productsStock.entity';
+import { GenderCatalog } from './entities/genderCatalog.entity';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { ProductsStock } from './product/entities/productsStock.entity';
         Product,
         ProductImages,
         ProductsStock,
-        User
+        User,
+        GenderCatalog
       ],
       synchronize: true,
     }),

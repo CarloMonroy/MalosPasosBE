@@ -6,8 +6,14 @@ import { Product } from './entities/product.entity';
 import { ProductImages } from './entities/productImages.entity';
 import { ProductsStock } from './entities/productsStock.entity';
 import { Collection } from 'src/collection/entities/collection.entity';
+import { GenderCatalog } from 'src/entities/genderCatalog.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, ProductImages, Collection, ProductsStock])],
+  imports: [TypeOrmModule.forFeature([Product,
+      ProductImages,
+      Collection,
+      ProductsStock,
+      GenderCatalog
+    ])],
   controllers: [ProductController],
   providers: [ProductService],
 })

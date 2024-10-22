@@ -35,6 +35,9 @@ export class CreateProductDto {
   @IsArray()
   productImages: string[]
 
+  @IsNumber()
+  genderId: number
+
 
   @IsArray()
   @ValidateNested({ each: true })

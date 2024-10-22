@@ -6,7 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { ProductImages } from './entities/productImages.entity';
 import { ProductsStock } from './entities/productsStock.entity';
-import { Collection } from 'src/collection/entities/collection.entity';
+import {Collection } from 'src/collection/entities/collection.entity';
+import { GenderCatalog } from 'src/entities/genderCatalog.entity';
 @Injectable()
 export class ProductService {
   constructor(
@@ -17,7 +18,9 @@ export class ProductService {
     @InjectRepository(Collection)
     private collectionRepository: Repository<Collection>,
     @InjectRepository(ProductsStock)
-    private productsStockRepository: Repository<ProductsStock>
+    private productsStockRepository: Repository<ProductsStock>,
+    @InjectRepository(GenderCatalog)
+    private genderCatalogRepository: Repository<GenderCatalog>
   ) {}
 
 
@@ -31,6 +34,11 @@ export class ProductService {
       const collection = await this.collectionRepository.findOne({
         where: {
           id: createProductDto.collectionId
+        }
+      });
+      const gender = await this.genderCatalogRepository.findOne({
+        where: {
+          id: createProductDto.genderId
         }
       });
       if (!collection) {
@@ -47,6 +55,7 @@ export class ProductService {
       product.materials = createProductDto.materials;
       product.slug = createProductDto.slug;
       product.collection = collection;
+      product.gender = gender;
 
       // Create ProductsStock
       product.productsStock = createProductDto.productStocks.map((stock) => {
@@ -70,6 +79,7 @@ export class ProductService {
       await queryRunner.manager.save(productImages);
       await queryRunner.manager.save(product.productsStock);
 
+
       // Commit the transaction
       await queryRunner.commitTransaction();
 
@@ -80,7 +90,10 @@ export class ProductService {
     } catch (error) {
       // Rollback the transaction in case of an error
       await queryRunner.rollbackTransaction();
-      throw error;
+        return {
+        message: 'Product creation failed',
+        error: error.message
+  };
     } finally {
       // Release the query runner
       await queryRunner.release();
@@ -94,8 +107,11 @@ export class ProductService {
     relations: ['productImages', 'collection', 'productsStock']
   });
 
+
   return { data, total };
 }
+
+
 
   findOne(productSlug: string) {
     return this.productRepository.findOne({

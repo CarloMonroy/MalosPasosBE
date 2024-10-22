@@ -17,6 +17,11 @@ export class CollectionController {
     return this.collectionService.findAll();
   }
 
+  @Get("/featured")
+  findAllFeatured() {
+    return this.collectionService.findAllFeatured();
+  }
+
   @Get(':collectionName/products')
   findProductsInCollection(@Param('collectionName') collectionName: string) {
     return this.collectionService.findProductsInCollection(collectionName);
@@ -31,6 +36,17 @@ export class CollectionController {
   ) {
     return this.collectionService.findProductsInCollectionPaginated(collectionName, parseInt(start), parseInt(limit), sort);
   }
+
+  @Get('/category/:gender')
+  findCollectionsByGender(
+    @Param('gender') gender: string,
+    @Query('start') start: number,
+    @Query('limit') limit: number,
+    @Query('sort') sort: string
+  ) {
+    return this.collectionService.findCollectionsByGender(gender, start, limit, sort);
+  }
+
 
 
   @Get(':id')

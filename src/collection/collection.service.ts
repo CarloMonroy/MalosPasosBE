@@ -5,6 +5,7 @@ import { Collection } from './entities/collection.entity';
 import { Product } from 'src/product/entities/product.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GenderCatalog } from 'src/entities/genderCatalog.entity';
 
 
 @Injectable()
@@ -13,7 +14,9 @@ export class CollectionService {
     @InjectRepository(Collection)
     private collectionRepository: Repository<Collection>,
     @InjectRepository(Product)
-    private productRepository: Repository<Product>
+    private productRepository: Repository<Product>,
+    @InjectRepository(GenderCatalog)
+    private genderRepository: Repository<GenderCatalog>
   ) { }
 
 
@@ -21,12 +24,16 @@ export class CollectionService {
     return this.collectionRepository.save(createCollectionDto);
   }
 
-  findAll() {
+  findAllFeatured() {
     return this.collectionRepository.find({
       where: {
         isFeatured: true
       }
     });
+  }
+
+  findAll() {
+    return this.collectionRepository.find();
   }
 
   async findProductsInCollectionPaginated(collectionName: string, start: number, limit: number, sort: string) {
@@ -52,7 +59,7 @@ export class CollectionService {
 
     const collection = await this.collectionRepository.findOne({
       where: {
-        title: collectionName.replace(/-/g, ' ')
+        slug: collectionName
       },
     });
 
@@ -72,14 +79,71 @@ export class CollectionService {
 
     return {
       products: product,
+      collection: collection,
       total
     };
   }
 
+  async findCollectionsByGender(gender: string, start: number, limit: number, sort: string) {
+    let order: any = {};
+
+    switch (sort) {
+      case 'best':
+        order = {
+          id: 'DESC'
+        };
+        break;
+      case 'low':
+        order = {
+          price: 'ASC'
+        };
+        break;
+      case 'high':
+        order = {
+          price: 'DESC'
+        };
+        break;
+      }
+
+      // gender id
+      const genderCollection = await this.genderRepository.find({
+        where: [{
+          title: gender,
+        },
+        {
+          title: 'unisex'
+        }
+      ],
+      })
+
+      console.log(genderCollection);
+
+      if (!genderCollection) {
+        throw new NotFoundException('no existe el genero');
+      }
+
+      const [products, total] = await this.productRepository.findAndCount({
+        where: {
+          gender: genderCollection
+        },
+        order,
+        relations: ['productImages'],
+        take: limit,
+        skip: start
+      });
+
+      return {
+        products,
+        collection: genderCollection,
+        total
+      };
+    }
+
+
   async findProductsInCollection(collectionName: string) {
     const collection = await this.collectionRepository.findOne({
       where: {
-        title: collectionName.replace(/-/g, ' ')
+        slug: collectionName
       },
     }
     );
